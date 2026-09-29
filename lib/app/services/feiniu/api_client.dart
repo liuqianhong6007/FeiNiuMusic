@@ -1427,6 +1427,55 @@ class FeiNiuApiClient {
   }
 
   // endregion
+
+  // region 23. 曲库（共享目录）与扫描
+
+  /// 曲库列表。返回的 `path` 是 NAS 上飞牛音乐索引的曲库根目录。
+  ///
+  /// 端点取自官方 Web 前端的 `F.sharedLibrary.*`，非官方文档。
+  Future<List<FeiNiuSharedLibrary>> getSharedLibraryList() async {
+    final data = await _get('/shared-library/list');
+    final response = FeiNiuResponse.fromJson(
+      data,
+      (d) => ((d as Map<String, dynamic>)['list'] as List<dynamic>? ?? [])
+          .whereType<Map<String, dynamic>>()
+          .map(FeiNiuSharedLibrary.fromJson)
+          .toList(),
+    );
+    return response.data ?? const [];
+  }
+
+  /// 触发曲库扫描。不传 [guid] 时扫描全部曲库。
+  ///
+  /// 端点同样逆向自官方 Web 前端，属于未公开接口：调用失败时应回退为
+  /// 「等待官方自动扫描」（官方通常在约 120 秒内自动入库）。
+  Future<void> scanSharedLibrary({String? guid}) async {
+    final hasGuid = guid != null && guid.isNotEmpty;
+    final data = await _post(
+      hasGuid ? '/shared-library/scan' : '/shared-library/scan-all',
+      data: hasGuid ? {'guid': guid} : null,
+    );
+    final parsed = FeiNiuResponse.fromJson(data, null);
+    if (!parsed.isSuccess) {
+      throw Exception(parsed.msg.isNotEmpty ? parsed.msg : '触发曲库扫描失败');
+    }
+  }
+
+  /// 后台任务列表，用于轮询 `fileScan` 是否结束。
+  Future<List<Map<String, dynamic>>> getTaskList() async {
+    final data = await _get('/task/list');
+    final response = FeiNiuResponse.fromJson(data, (d) {
+      final raw = d is Map<String, dynamic> ? d['list'] : d;
+      if (raw is! List) return const <Map<String, dynamic>>[];
+      return raw
+          .whereType<Map>()
+          .map((e) => e.cast<String, dynamic>())
+          .toList();
+    });
+    return response.data ?? const [];
+  }
+
+  // endregion
 }
 
 /// 音频流 URL 302 预解析缓存条目。

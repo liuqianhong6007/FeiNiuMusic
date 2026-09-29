@@ -183,6 +183,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     onTap: () =>
                         Navigator.pushNamed(context, AppRoutes.dlnaSettings),
                   ),
+                  AppSettingTile(
+                    title: '音乐下载',
+                    subtitle: '搜索在线音乐并下载到飞牛音乐曲库（go-music-dl）',
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () =>
+                        Navigator.pushNamed(context, AppRoutes.musicDlSettings),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),

@@ -110,6 +110,12 @@ class SideMenu extends StatelessWidget {
                           onTap: () =>
                               _navigateAndClose(context, AppRoutes.favorites),
                         ),
+                        _MenuItem(
+                          icon: Icons.cloud_download_rounded,
+                          label: '在线下载',
+                          onTap: () =>
+                              _pushAndClose(context, AppRoutes.onlineDownload),
+                        ),
                       ],
                     ),
                     SizedBox(height: 10 * scale),

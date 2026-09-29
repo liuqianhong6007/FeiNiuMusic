@@ -12,5 +12,6 @@ export 'settings_player_style_state.dart';
 export 'settings_status_bar_state.dart';
 export 'settings_theme_state.dart';
 export 'settings_transcode_state.dart';
+export 'settings_music_dl_state.dart';
 export 'settings_volume_schedule_state.dart';
 export 'settings_desktop_lyrics_state.dart';

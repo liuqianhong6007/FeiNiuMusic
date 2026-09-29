@@ -73,6 +73,9 @@ dependencies:
   media_cast_dlna: ^0.3.1
   webview_flutter: ^4.10.0
   webview_flutter_android: ^4.13.0
+  # go-music-dl 的搜索结果是服务端渲染的 HTML（它没有 JSON 搜索接口），
+  # 需要解析 li.song-card 上的 data-* 属性。
+  html: ^0.15.4
   # Windows 桌面端 sqflite 需走 ffi（系统 winsqlite3.dll）。从 dev 提升为
   # 正式依赖：仅 Windows 构建/运行时使用，Android 不受影响。
   sqflite_common_ffi: ^2.4.2

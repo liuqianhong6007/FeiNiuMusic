@@ -541,3 +541,27 @@ class FeiNiuLyricResponse {
     );
   }
 }
+
+/// 飞牛音乐的曲库（共享目录）。
+///
+/// [path] 是 NAS 上的曲库根目录。go-music-dl 的下载目录需要指向它（或其子
+/// 目录），新下载的文件才会被飞牛音乐扫描入库。
+class FeiNiuSharedLibrary {
+  final String guid;
+  final String path;
+  final String name;
+
+  const FeiNiuSharedLibrary({
+    required this.guid,
+    required this.path,
+    required this.name,
+  });
+
+  factory FeiNiuSharedLibrary.fromJson(Map<String, dynamic> json) {
+    return FeiNiuSharedLibrary(
+      guid: json['guid'] as String? ?? '',
+      path: json['path'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+    );
+  }
+}

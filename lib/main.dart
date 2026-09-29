@@ -203,6 +203,8 @@ Future<void> main(List<String> args) async {
   await DlnaCastSettings.ensureLoaded();
   // 桌面端「关闭按钮隐藏到托盘」（Windows/macOS 共用，默认开启）
   await CloseToTraySettings.ensureLoaded();
+  // go-music-dl 在线搜索下载：地址与会话要在首帧前就绪，否则服务层拿到的是空配置。
+  await AppMusicDlSettings.ensureLoaded();
   // Windows 系统托盘：拦截关闭按钮 + 托盘菜单（播放控制/退出）。
   if (Platform.isWindows) {
     await DesktopTrayService.init();
